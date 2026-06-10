@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+.env
+certs/*.pem
+certs/*.srl
+users/users.json
+products/products_5002.json
+products/products_5012.json
+orders/orders.json
+gateway/gateway.log
