@@ -246,11 +246,9 @@ runtime); apenas os `*_seed.json` ficam no repositório.
 ```
 entrega/
 ├── gateway/
-│   ├── main.py
-│   ├── proxy.py
+│   ├── main.py            (rotas + proxy + integra heartbeat/replication)
 │   ├── heartbeat.py
 │   ├── replication.py
-│   ├── auth.py
 │   ├── static/dashboard.html
 │   ├── requirements.txt
 │   └── Dockerfile
@@ -281,6 +279,11 @@ entrega/
 ├── README_execucao.md
 └── relatorio.md
 ```
+
+Nota: o Gateway não possui `auth.py` nem `proxy.py` próprios — ele não decodifica
+JWT (apenas repassa o header `Authorization`, conforme seção 2/5), e a lógica
+de proxy fica em `main.py` junto com as rotas, por ser pequena o suficiente
+para não justificar um módulo separado.
 
 ## 13. README_execucao.md (conteúdo previsto)
 
