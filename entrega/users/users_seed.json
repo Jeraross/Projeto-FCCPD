@@ -1,0 +1,10 @@
+[
+  {
+    "id": "11111111-1111-4111-8111-111111111111",
+    "name": "Admin Pizzaria",
+    "email": "admin@pizzaria.com",
+    "passwordHash": "$2b$12$j.0S9teZDjirR57dQtpezOwXxyx.0ZAXoO53FHHK/h.8fy1w8gh3S",
+    "role": "admin",
+    "createdAt": "2026-01-01T00:00:00+00:00"
+  }
+]
