@@ -1,0 +1,42 @@
+[
+  {
+    "id": "a1111111-1111-4111-8111-100000000001",
+    "name": "Pizza Margherita",
+    "description": "Molho de tomate, mussarela e manjericao fresco",
+    "price": 35.0,
+    "createdAt": "2026-01-01T00:00:00+00:00",
+    "updatedAt": "2026-01-01T00:00:00+00:00"
+  },
+  {
+    "id": "a1111111-1111-4111-8111-100000000002",
+    "name": "Pizza Calabresa",
+    "description": "Molho de tomate, mussarela, calabresa fatiada e cebola",
+    "price": 38.0,
+    "createdAt": "2026-01-01T00:00:00+00:00",
+    "updatedAt": "2026-01-01T00:00:00+00:00"
+  },
+  {
+    "id": "a1111111-1111-4111-8111-100000000003",
+    "name": "Pizza Quatro Queijos",
+    "description": "Mussarela, provolone, parmesao e gorgonzola",
+    "price": 42.0,
+    "createdAt": "2026-01-01T00:00:00+00:00",
+    "updatedAt": "2026-01-01T00:00:00+00:00"
+  },
+  {
+    "id": "a1111111-1111-4111-8111-100000000004",
+    "name": "Pizza Portuguesa",
+    "description": "Presunto, ovos, cebola, azeitona e ervilha",
+    "price": 40.0,
+    "createdAt": "2026-01-01T00:00:00+00:00",
+    "updatedAt": "2026-01-01T00:00:00+00:00"
+  },
+  {
+    "id": "a1111111-1111-4111-8111-100000000005",
+    "name": "Pizza Frango com Catupiry",
+    "description": "Frango desfiado, catupiry e milho",
+    "price": 39.0,
+    "createdAt": "2026-01-01T00:00:00+00:00",
+    "updatedAt": "2026-01-01T00:00:00+00:00"
+  }
+]
