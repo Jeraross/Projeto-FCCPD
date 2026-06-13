@@ -92,3 +92,18 @@ async def test_create_product_raises_502_when_a_replica_rejects():
             await router.create_product({"name": "x", "description": "y", "price": 1.0}, {})
 
     assert exc_info.value.status_code == 502
+
+
+async def test_create_product_passes_through_uniform_rejection_response():
+    registry = _make_registry(["UP", "UP"])
+
+    async def handler(request):
+        return httpx.Response(403, json={"detail": "Acesso restrito a administradores"})
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        router = ProductsRouter(registry, client)
+        response = await router.create_product(
+            {"name": "x", "description": "y", "price": 1.0}, {}
+        )
+
+    assert response.status_code == 403

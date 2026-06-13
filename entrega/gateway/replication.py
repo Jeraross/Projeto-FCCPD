@@ -53,7 +53,8 @@ class ProductsRouter:
                 )
             responses.append(response)
 
-        if any(r.status_code >= 400 for r in responses):
+        statuses = {r.status_code for r in responses}
+        if len(statuses) > 1:
             logger.error(
                 "[REPLICATION] escrita inconsistente entre replicas de produtos: %s",
                 body["id"],
