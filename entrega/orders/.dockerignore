@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+tests/
+.venv/
+users.json
+products_5002.json
+products_5012.json
+orders.json

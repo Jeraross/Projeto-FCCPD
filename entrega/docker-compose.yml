@@ -1,0 +1,80 @@
+services:
+  gateway:
+    build: ./gateway
+    ports:
+      - "8443:8443"
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      PORT: "8443"
+      USERS_URL: https://users:5001
+      ORDERS_URL: https://orders:5003
+      PRODUCTS_URLS: https://products-1:5002,https://products-2:5012
+      HEARTBEAT_INTERVAL: ${HEARTBEAT_INTERVAL:-5}
+      HEARTBEAT_TIMEOUT: ${HEARTBEAT_TIMEOUT:-2}
+      HEARTBEAT_FAILURE_THRESHOLD: ${HEARTBEAT_FAILURE_THRESHOLD:-2}
+      SSL_CERT_PATH: /certs/cert.pem
+      SSL_KEY_PATH: /certs/key.pem
+    volumes:
+      - ./certs:/certs:ro
+    depends_on:
+      - users
+      - orders
+      - products-1
+      - products-2
+
+  users:
+    build: ./users
+    ports:
+      - "5001:5001"
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_MINUTES: ${JWT_EXPIRES_MINUTES:-60}
+      PORT: "5001"
+      DATA_FILE: users.json
+      SEED_FILE: users_seed.json
+      SSL_CERT_PATH: /certs/cert.pem
+      SSL_KEY_PATH: /certs/key.pem
+    volumes:
+      - ./certs:/certs:ro
+
+  products-1:
+    build: ./products
+    ports:
+      - "5002:5002"
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      PORT: "5002"
+      DATA_FILE: products_5002.json
+      SEED_FILE: products_seed.json
+      SSL_CERT_PATH: /certs/cert.pem
+      SSL_KEY_PATH: /certs/key.pem
+    volumes:
+      - ./certs:/certs:ro
+
+  products-2:
+    build: ./products
+    ports:
+      - "5012:5012"
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      PORT: "5012"
+      DATA_FILE: products_5012.json
+      SEED_FILE: products_seed.json
+      SSL_CERT_PATH: /certs/cert.pem
+      SSL_KEY_PATH: /certs/key.pem
+    volumes:
+      - ./certs:/certs:ro
+
+  orders:
+    build: ./orders
+    ports:
+      - "5003:5003"
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      PORT: "5003"
+      DATA_FILE: orders.json
+      PRODUCTS_URL: https://products-1:5002
+      SSL_CERT_PATH: /certs/cert.pem
+      SSL_KEY_PATH: /certs/key.pem
+    volumes:
+      - ./certs:/certs:ro
