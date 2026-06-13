@@ -40,9 +40,11 @@ escritas no serviço de Produtos.
   escrever em nenhuma réplica**.
 - Quando ambas estão `UP`, o Gateway gera um `id` (UUID4) único, monta o
   payload com esse `id` e envia o **mesmo payload em sequência para as duas
-  réplicas**. Só retorna sucesso ao cliente se **ambas** responderem `2xx`;
-  caso uma rejeite, é registrado um log `[REPLICATION]` de inconsistência e o
-  Gateway responde `502`.
+  réplicas**. Se **ambas** responderem com o **mesmo status** (seja sucesso
+  `2xx` ou uma rejeição uniforme, como `403` quando o token não é de admin),
+  essa resposta é repassada ao cliente sem alterações. Só quando as réplicas
+  **divergem** entre si (ex.: uma responde `201` e a outra `500`) é registrado
+  um log `[REPLICATION]` de inconsistência e o Gateway responde `502`.
 - **Justificativa:** essa escolha garante que, sempre que uma réplica está
   acessível, seu conteúdo de produtos é idêntico ao da outra — não é
   necessário nenhum mecanismo de reconciliação ao recuperar uma réplica que
