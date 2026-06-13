@@ -1,5 +1,4 @@
-# Relatório — Pizzaria Online (Microsserviços)
-
+# Relatório
 ## 1. Como a comunicação entre os microsserviços foi implementada?
 
 Toda a comunicação é **REST/HTTP com payloads JSON**, usando `httpx` como

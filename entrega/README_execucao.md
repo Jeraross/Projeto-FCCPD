@@ -19,12 +19,12 @@ senha: admin123
 
 ---
 
-## Opção 1: Docker Compose (recomendado)
+## Opção 1: Docker Compose
 
 1. Gere o certificado TLS autoassinado (uma vez):
 
    ```bash
-   ./entrega/certs/generate_certs.sh
+   bash ./entrega/certs/generate_certs.sh
    ```
 
 2. Crie o arquivo de variáveis de ambiente:
@@ -52,7 +52,7 @@ senha: admin123
    https://localhost:8443/dashboard
    ```
 
-   (o navegador vai alertar sobre o certificado autoassinado — aceite o risco
+   (o navegador vai alertar sobre o certificado autoassinado, aceite o risco
    para visualizar).
 
 6. Use os exemplos de `curl` da seção [Exemplos de uso](#exemplos-de-uso)
@@ -83,7 +83,7 @@ python3 -m venv .venv
 .venv/bin/pip install -r orders/requirements.txt
 ```
 
-### 2. Terminal 1 — Serviço de Usuários (porta 5001)
+### 2. Terminal 1: Serviço de Usuários (porta 5001)
 
 ```bash
 cd entrega/users
@@ -91,7 +91,7 @@ JWT_SECRET=segredo-pizzaria JWT_EXPIRES_MINUTES=60 \
   ../.venv/bin/uvicorn main:app --host 0.0.0.0 --port 5001
 ```
 
-### 3. Terminal 2 — Serviço de Produtos, réplica 1 (porta 5002)
+### 3. Terminal 2: Serviço de Produtos, réplica 1 (porta 5002)
 
 ```bash
 cd entrega/products
@@ -99,7 +99,7 @@ JWT_SECRET=segredo-pizzaria DATA_FILE=products_5002.json SEED_FILE=products_seed
   ../.venv/bin/uvicorn main:app --host 0.0.0.0 --port 5002
 ```
 
-### 4. Terminal 3 — Serviço de Produtos, réplica 2 (porta 5012)
+### 4. Terminal 3: Serviço de Produtos, réplica 2 (porta 5012)
 
 ```bash
 cd entrega/products
@@ -107,7 +107,7 @@ JWT_SECRET=segredo-pizzaria DATA_FILE=products_5012.json SEED_FILE=products_seed
   ../.venv/bin/uvicorn main:app --host 0.0.0.0 --port 5012
 ```
 
-### 5. Terminal 4 — Serviço de Pedidos (porta 5003)
+### 5. Terminal 4: Serviço de Pedidos (porta 5003)
 
 ```bash
 cd entrega/orders
@@ -115,7 +115,7 @@ JWT_SECRET=segredo-pizzaria DATA_FILE=orders.json PRODUCTS_URL=http://localhost:
   ../.venv/bin/uvicorn main:app --host 0.0.0.0 --port 5003
 ```
 
-### 6. Terminal 5 — API Gateway (porta 8000)
+### 6. Terminal 5: API Gateway (porta 8000)
 
 ```bash
 cd entrega/gateway
@@ -232,7 +232,7 @@ curl http://localhost:8000/orders/<userId> \
    docker compose logs gateway | grep FAILURE
    ```
 
-3. Tente criar um pedido — o gateway responde `503`:
+3. Tente criar um pedido, o gateway responde `503`:
 
    ```bash
    curl -k https://localhost:8443/orders \
