@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 
 import httpx
 from fastapi import FastAPI, Request, Response
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 
 from heartbeat import HealthRegistry, ServiceInstance, heartbeat_loop
 from replication import ProductsReplicaError, ProductsRouter
@@ -30,6 +30,8 @@ HEARTBEAT_TIMEOUT = float(os.environ.get("HEARTBEAT_TIMEOUT", "2"))
 HEARTBEAT_FAILURE_THRESHOLD = int(os.environ.get("HEARTBEAT_FAILURE_THRESHOLD", "2"))
 SSL_CERT_PATH = os.environ.get("SSL_CERT_PATH")
 VERIFY = SSL_CERT_PATH if SSL_CERT_PATH else True
+
+STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
 
 instances = [
     ServiceInstance(name="users", url=USERS_URL),
@@ -161,3 +163,8 @@ async def dashboard_status():
             for inst in registry.instances
         ]
     }
+
+
+@app.get("/dashboard")
+async def dashboard():
+    return FileResponse(os.path.join(STATIC_DIR, "dashboard.html"))

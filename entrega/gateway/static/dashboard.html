@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pizzaria Online — Painel de Monitoramento</title>
+  <style>
+    body {
+      font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: #fdf6ec;
+      color: #3a2a1a;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #c0392b;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      max-width: 800px;
+      margin: 2rem auto;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    .card h2 {
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+      text-transform: capitalize;
+    }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: bold;
+    }
+    .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .dot.up { background: #2ecc71; }
+    .dot.down { background: #e74c3c; }
+    .meta {
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      color: #888;
+      word-break: break-all;
+    }
+    .updated {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pizzaria Online — Painel de Monitoramento</h1>
+  <div class="grid" id="services"></div>
+  <p class="updated" id="updated">Carregando...</p>
+
+  <script>
+    async function refresh() {
+      try {
+        const response = await fetch("/dashboard/status");
+        const data = await response.json();
+        const grid = document.getElementById("services");
+        grid.innerHTML = "";
+
+        let productsCount = 0;
+        data.services.forEach((service) => {
+          let label = service.name;
+          if (service.name === "products") {
+            productsCount += 1;
+            label = `products-${productsCount}`;
+          }
+
+          const lastCheck = service.lastCheck
+            ? new Date(service.lastCheck * 1000).toLocaleTimeString("pt-BR")
+            : "nunca";
+
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <h2>${label}</h2>
+            <span class="status">
+              <span class="dot ${service.status === "UP" ? "up" : "down"}"></span>
+              ${service.status}
+            </span>
+            <div class="meta">${service.url}</div>
+            <div class="meta">ultimo check: ${lastCheck}</div>
+          `;
+          grid.appendChild(card);
+        });
+
+        document.getElementById("updated").textContent =
+          "Atualizado em " + new Date().toLocaleTimeString("pt-BR");
+      } catch (err) {
+        document.getElementById("updated").textContent =
+          "Falha ao consultar /dashboard/status: " + err;
+      }
+    }
+
+    refresh();
+    setInterval(refresh, 2000);
+  </script>
+</body>
+</html>

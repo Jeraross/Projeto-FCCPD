@@ -165,3 +165,13 @@ def test_create_product_writes_to_both_replicas(gateway):
 
     assert response.status_code == 201
     assert received == ["products-1", "products-2"]
+
+
+def test_dashboard_serves_html(gateway):
+    client = TestClient(gateway.app)
+
+    response = client.get("/dashboard")
+
+    assert response.status_code == 200
+    assert "text/html" in response.headers["content-type"]
+    assert "Pizzaria Online" in response.text
