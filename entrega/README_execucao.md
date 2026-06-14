@@ -1,4 +1,4 @@
-# Pizzaria Online — Instruções de Execução
+# Instruções de Execução
 
 Sistema de e-commerce de pizzaria composto por 4 serviços (Gateway, Usuários,
 Produtos com 2 réplicas, Pedidos), com replicação coordenada, heartbeat,
